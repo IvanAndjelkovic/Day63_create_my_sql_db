@@ -35,13 +35,24 @@ class Books(db.Model):
     def __repr__(self):
         return f'<Book {self.title}>'
 
+# with app.app_context():
+#     db.create_all()
+
+
+# with app.app_context():
+
+
+#     book1 = Books(title="Harry Potter", author="J.K. Rowling", rating=9.3)
+#     db.session.add(book1)
+#     db.session.commit()
+
 with app.app_context():
-    db.create_all()
+    result=db.session.execute(db.select(Books).order_by(Books.title))
+    all_books=result.scalars().all()
 
+print(all_books[0].title)
 
-with app.app_context():
-
-
-    book1 = Books(title="Harry Potter", author="J.K. Rowling", rating=9.3)
-    db.session.add(book1)
-    db.session.commit()
+# with app.app_context():
+#     book_to_update = db.session.execute(db.select(Books).filter_by(id=1)).scalar()
+#     book_to_update.title = "Harry Potter and the Chamber of Secrets"
+#     db.session.commit()
